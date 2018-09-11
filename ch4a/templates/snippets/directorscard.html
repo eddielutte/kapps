@@ -1,0 +1,239 @@
+
+<div class="card card-nav-tabsn">
+    <div class="card-header card-header-info">
+        <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+        <div class="nav-tabs-navigation">
+            <div class="nav-tabs-wrapper">
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                    <li class="nav-item">
+                        <h4 class="nav-link">OFFICERS INFORMATION:</h4>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#disclosures_officers_tab" data-toggle="tab">Disclosures</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#current_officers_tab" data-toggle="tab">Current</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#all_officers_tab" data-toggle="tab">All</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div><div class="card-body ">
+        <div class="tab-content text-left">
+            <div class="tab-pane active" id="disclosures_officers_tab">
+                <h3>Directors disclosure<span style="color: #ddd;"> (for year ended {{company_request.accounts.next_accounts.period_end_on_datetime|date:"d F Y"}})</h3>
+                <p>The directors who held office during the year were as follows:</p>
+                <ul>
+                    {% for officer in officers_request.items %}
+                       {% if officer.is_current is True and officer.is_director is True %}
+                          <li>{{officer.name_disclosure}} {{officer.appointment_period_disclosure}}</li>
+                       {% endif %}
+                    {% endfor %}
+                </ul>
+                {% if officers_request.count.director.future > 0 %}
+                    <p>The following directors were appointed after the end of the year:</p>
+                    <ul>
+                        {% for officer in officers_request.items %}
+                            {% if officer.is_future is True and officer.is_director is True %}
+                                <li>{{officer.name_disclosure}} {{officer.appointment_period_disclosure}}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p style="font-style: italic;">No further directors have been appointed since the end of the year.</p>
+                {% endif %}
+
+
+                <h3>Secretaries disclosure<span style="color: #ddd;"> (for year ended {{company_request.accounts.next_accounts.period_end_on_datetime|date:"d F Y"}})</h3>
+                {% if officers_request.count.secretary.current %}
+                    <p>The secretaries who held office during the year were as follows:</p>
+                    <ul>
+                        {% for officer in officers_request.items %}
+                            {% if officer.is_secretary and officer.is_current %}
+                            <li>{{ officer.name_disclosure }} {{ officer.appointment_period_disclosure }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    
+                    </ul>
+                {% endif %}
+                {% if officers_request.count.secretary.current == 0 %}
+                    <p style="font-style: italic;">No secretaries were in office during the year.</p>
+                {% endif %}
+                
+                {% if officers_request.count.secretary.future > 0 %}
+                    <p>The following secretaries appointed after the end of the year:</p>
+                    <ul>
+                        {% for officer in officers_request.items %}
+                            {% if officer.is_future is True and officer.is_director is True %}
+                                <li>{{officer.name_disclosure}} {{officer.appointment_period_disclosure}}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p style="font-style: italic;">No further secretaries have been appointed since the end of the year.</p>
+                {% endif %}
+
+
+            </div>
+            <div class="tab-pane" id="current_officers_tab">
+                <h3>Current directors listing<span style="color: #ddd;"> (for year ended {{company_request.accounts.next_accounts.period_end_on_datetime|date:"d F Y"}})</span></h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead class="">
+                        <th>Name</th>
+                        <th>Appointed on</th>
+                        <th>Resigned on</th>
+                        <th>Date of birth</th>
+                        <th>Nationality</th>
+                        <th>Occupation</th>
+                      </thead>
+                      <tbody>
+
+                    {% for officer in officers_request.items %}
+                        {% if officer.is_director and officer.is_current %}
+                        <tr>
+                            <td>{{ officer.name_disclosure }}</td>
+                            <td>{{ officer.appointed_on_datetime|date:"d M Y" }}</td>
+                            <td>{{ officer.resigned_on_datetime|date:"d M Y" }}</td>
+                            <td>
+                                {% if officer.date_of_birth.day %}
+                                    {{ officer.date_of_birth_datetime|date:"d M Y" }}
+                                {% else %}
+                                    {{ officer.date_of_birth_datetime|date:"M Y" }}
+                                {% endif %}
+                            </td>
+                            <td>{{ officer.nationality }}</td>
+                            <td>{{ officer.occupation }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                      </tbody>
+                    </table>
+                  </div>
+                <h3>Current secretaries listing<span style="color: #ddd;"> (for year ended {{company_request.accounts.next_accounts.period_end_on_datetime|date:"d F Y"}})</h3>
+                {% if officers_request.count.secretary.current %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                        <thead class="">
+                            <th>Name</th>
+                            <th>Appointed on</th>
+                            <th>Resigned on</th>
+                            <th>Date of birth</th>
+                            <th>Nationality</th>
+                            <th>Occupation</th>
+                        </thead>
+                        <tbody>
+
+                        {% for officer in officers_request.items %}
+                            {% if officer.is_secretary and officer.is_current %}
+                            <tr>
+                                <td>{{ officer.name_disclosure }}</td>
+                                <td>{{ officer.appointed_on_datetime|date:"d M Y" }}</td>
+                                <td>{{ officer.resigned_on_datetime|date:"d M Y" }}</td>
+                                <td>
+                                    {% if officer.date_of_birth.day %}
+                                        {{ officer.date_of_birth_datetime|date:"d M Y" }}
+                                    {% else %}
+                                        {{ officer.date_of_birth_datetime|date:"M Y" }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ officer.nationality }}</td>
+                                <td>{{ officer.occupation }}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+
+                        </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p>No secretaries currently appointed.</p>
+                {% endif %}
+                
+            </div>
+            <div class="tab-pane" id="all_officers_tab">
+                <h3>All directors listings</h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead class="">
+                        <th>Name</th>
+                        <th>Appointed on</th>
+                        <th>Resigned on</th>
+                        <th>Date of birth</th>
+                        <th>Nationality</th>
+                        <th>Occupation</th>
+                      </thead>
+                      <tbody>
+
+                    {% for officer in officers_request.items %}
+                        {% if officer.is_director %}
+                        <tr>
+                            <td>{{ officer.name_disclosure }}</td>
+                            <td>{{ officer.appointed_on_datetime|date:"d M Y" }}</td>
+                            <td>{{ officer.resigned_on_datetime|date:"d M Y" }}</td>
+                            <td>
+                                {% if officer.date_of_birth.day %}
+                                    {{ officer.date_of_birth_datetime|date:"d M Y" }}
+                                {% else %}
+                                    {{ officer.date_of_birth_datetime|date:"M Y" }}
+                                {% endif %}
+                            </td>
+                            <td>{{ officer.nationality }}</td>
+                            <td>{{ officer.occupation }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                      </tbody>
+                    </table>
+                  </div>
+                  
+                <h3>All secretaries listings</h3>
+                {% if officers_request.count.secretary.all %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                        <thead class="">
+                            <th>Name</th>
+                            <th>Appointed on</th>
+                            <th>Resigned on</th>
+                            <th>Date of birth</th>
+                            <th>Nationality</th>
+                            <th>Occupation</th>
+                        </thead>
+                        <tbody>
+
+                        {% for officer in officers_request.items %}
+                            {% if officer.is_secretary %}
+                            <tr>
+                                <td>{{ officer.name_disclosure }}</td>
+                                <td>{{ officer.appointed_on_datetime|date:"d M Y" }}</td>
+                                <td>{{ officer.resigned_on_datetime|date:"d M Y" }}</td>
+                                <td>
+                                    {% if officer.date_of_birth.day %}
+                                        {{ officer.date_of_birth_datetime|date:"d M Y" }}
+                                    {% else %}
+                                        {{ officer.date_of_birth_datetime|date:"M Y" }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ officer.nationality }}</td>
+                                <td>{{ officer.occupation }}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+
+                        </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p>No secretaries appointed.</p>
+                {% endif %}
+
+
+            </div>
+        </div>
+    </div>
+  </div>
+

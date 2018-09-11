@@ -1,0 +1,37 @@
+{% load static %}
+{% include "../snippets/header_tag.html" %}
+
+<body class="">
+  <div class="wrapper ">
+    {% include "../snippets/sidebar.html" %}
+
+    <div class="main-panel">
+      {% include "../snippets/navbar.html" %}
+
+      <div class="content">
+        <div class="container-fluid">
+
+          <div class="row">
+            <div class="col-md-12">
+              {% include "../snippets/searchbar.html" %}
+            </div>
+          </div>
+
+          {% block main_page_content %}
+          {% include "../snippets/example_tables.html" %}
+          {% endblock main_page_content %}
+          
+        </div>
+      </div>
+
+
+      {% include "../snippets/footer.html" %}
+
+    </div>
+  </div>
+
+  {% include "../snippets/corejsfiles.html" %}
+
+</body>
+
+</html>

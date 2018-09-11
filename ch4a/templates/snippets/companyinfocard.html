@@ -1,0 +1,130 @@
+
+
+
+
+<div class="card card-nav-tabsn">
+    <div class="card-header card-header-primary">
+        <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+        <div class="nav-tabs-navigation">
+            <div class="nav-tabs-wrapper">
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                    <li class="nav-item">
+                        <h4 class="nav-link">COMPANY INFORMATION:</h4>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#company_info_disclosures_tab" data-toggle="tab">Disclosures</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#company_info_all_tab" data-toggle="tab">All company info</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    
+    <div class="card-body ">
+
+        <div class="tab-content text-left">
+
+
+            <div class="tab-pane active" id="company_info_disclosures_tab">
+                <h3>Front page information<span style="color: #ddd;"> (for year ended {{company_request.accounts.next_accounts.period_end_on_datetime|date:"d F Y"}})</span></h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <td>Company name:</td>
+                                <td>{{ company_request.company_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Company number:</td>
+                                <td>{{ company_request.company_number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Year end date:</td>
+                                <td>{{company_request.accounts.next_accounts.period_end_on_datetime|date:"d F Y"}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                  </div>
+            </div>
+
+
+
+
+            <div class="tab-pane" id="company_info_all_tab">
+                <h3>All directors listings</h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead class="">
+                        <th>Name</th>
+                        <th>Appointed on</th>
+                        <th>Resigned on</th>
+                        <th>Date of birth</th>
+                        <th>Nationality</th>
+                        <th>Occupation</th>
+                      </thead>
+                      <tbody>
+
+                    {% for officer in officers_request.items %}
+                        {% if officer.is_director %}
+                        <tr>
+                          <td>{{ officer.disclosure_name_full }}</td>
+                          <td>{{ officer.disclosure_appointed_on_short }}</td>
+                          <td>{{ officer.disclosure_resigned_on_short }}</td>
+                          <td>{{ officer.disclosure_date_of_birth_short }}</td>
+                          <td>{{ officer.disclosure_nationality }}</td>
+                          <td>{{ officer.disclosure_occupation }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                      </tbody>
+                    </table>
+                  </div>
+                  
+                <h3>All secretaries listings</h3>
+                
+                {% if officers_request.count.secretary.all %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                        <thead class="">
+                            <th>Name</th>
+                            <th>Appointed on</th>
+                            <th>Resigned on</th>
+                            <th>Date of birth</th>
+                            <th>Nationality</th>
+                            <th>Occupation</th>
+                        </thead>
+                        <tbody>
+
+                        {% for officer in officers_request.items %}
+                            {% if officer.is_secretary %}
+                            <tr>
+                            <td>{{ officer.disclosure_name_full }}</td>
+                            <td>{{ officer.disclosure_appointed_on_short }}</td>
+                            <td>{{ officer.disclosure_resigned_on_short }}</td>
+                            <td>{{ officer.disclosure_date_of_birth_short }}</td>
+                            <td>{{ officer.nationality }}</td>
+                            <td>{{ officer.occupation }}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+
+                        </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+                {% if officers_request.count.secretary.all == 0 %}
+                    <p>No secretaries appointed.</p>
+                {% endif %}
+
+
+            </div>
+        </div>
+    </div>
+  </div>
+
