@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+#    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.FileSystemFinder',
 ]
 
 MIDDLEWARE = [
@@ -120,4 +122,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+STATICFILES_DIRS = [
+    "/home/site/wwwroot/static",
+    "/home/site/wwwroot/chat/static",
+    "/home/site/repository/static",
+    "/home/site/repository/chat/static",
+]
