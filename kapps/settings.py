@@ -120,22 +120,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = "/home/site/wwwroot/static"
-
-
-# latest insert.
-
-SITE_ROOT = os.path.abspath(os.path.dirname(__file__))
-
-STATIC_URL = '/static/'
-
-STATIC_ROOT = os.path.join( SITE_ROOT, 'static')
-SITE_STATIC_ROOT = os.path.join( SITE_ROOT, 'static')
-
-# Additional locations of static files
-STATICFILES_DIRS = (
-    # Don't forget to use absolute paths, not relative paths.
-    ('', SITE_STATIC_ROOT),
-)
-
 
