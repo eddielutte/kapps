@@ -12,8 +12,6 @@ officers_request_cache = {}
 
 
 
-
-
 def get_officers(company_number):
 
     officers_request = None
@@ -239,7 +237,7 @@ def _generate_company_request_datetimes( cr:dict = None ):
     
     if cr is not None :      
         
-        date_fields: list = [
+        date_fields = [
             ['accounts','last_accounts','period_start_on'],
             ['accounts','last_accounts','period_end_on'],
             ['accounts','next_accounts','due_on'],
