@@ -91,5 +91,5 @@ ENV/
 # VS code
 .vscode
 
-# local files.
+# mypy
 .mypy_cache
