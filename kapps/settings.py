@@ -120,4 +120,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = "/home/site/wwwroot/chat/static"
+STATIC_ROOT = "/home/site/wwwroot/static"
